@@ -1,0 +1,20 @@
+# Guideline Conflict Test
+# =======================
+# These guidelines intentionally conflict with guidelines.yaml
+# to demonstrate automated consistency checking.
+
+- id: G6
+  text: "Discharge planning must not begin until cultures are finalized"
+  term: must_not
+  type: prohibition
+  formula:
+    op: box_not
+    atom: discharge_plan
+
+- id: G7
+  text: "Patients with STEMI must receive thrombolytics"
+  term: must
+  type: obligation
+  formula:
+    op: box
+    atom: thrombolytic

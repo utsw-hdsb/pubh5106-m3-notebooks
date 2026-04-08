@@ -1,0 +1,27 @@
+# Student-Added Guidelines
+# ========================
+# Add your own clinical guideline formalizations here.
+# The engine loads this file alongside guidelines.yaml.
+#
+# Supported formula types:
+#   op: box         → obligation: O(atom)
+#   op: diamond     → permission: P(atom)
+#   op: box_not     → prohibition: O(¬atom)
+#   conditional     → if condition then op(atom)
+#
+# Try formalizing one of these:
+#
+#   "Patients over 65 with hip fracture must receive DVT prophylaxis"
+#   "Opioids should not be prescribed for chronic non-cancer pain
+#    without first trying non-opioid alternatives"
+#   "Clinicians may defer screening colonoscopy in patients with
+#    life expectancy under 10 years"
+
+- id: S1
+  text: "Patients over 65 with hip fracture must receive DVT prophylaxis"
+  term: must
+  type: obligation
+  formula:
+    op: box
+    atom: dvt_prophylaxis
+    conditional: hip_fracture_over_65

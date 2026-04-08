@@ -1,0 +1,117 @@
+# MYCIN-Inspired Knowledge Base
+# =============================
+# Each rule has:
+#   - name: a short identifier
+#   - text: a human-readable description
+#   - premises: a list of conditions (attribute, operator, value)
+#   - conclusion: what the rule concludes (attribute, value)
+#   - cf: certainty factor (0.0 to 1.0)
+#
+# The inference engine loads this file and applies the rules.
+# To add knowledge, add a rule here -- do not modify the engine code.
+
+# ── Layer 1: Organism Identification ──
+
+- name: R1
+  text: Gram-positive cocci in chains suggest streptococcus
+  premises:
+    - [gram_stain, is, gram-positive]
+    - [morphology, is, coccus]
+    - [growth_pattern, is, chains]
+  conclusion: [identity, streptococcus]
+  cf: 0.7
+
+- name: R2
+  text: Gram-positive cocci in clumps suggest staphylococcus
+  premises:
+    - [gram_stain, is, gram-positive]
+    - [morphology, is, coccus]
+    - [growth_pattern, is, clumps]
+  conclusion: [identity, staphylococcus]
+  cf: 0.7
+
+- name: R3
+  text: Gram-negative aerobic rods may be pseudomonas
+  premises:
+    - [gram_stain, is, gram-negative]
+    - [morphology, is, rod]
+    - [aerobicity, is, aerobic]
+  conclusion: [identity, pseudomonas]
+  cf: 0.4
+
+- name: R4
+  text: Gram-negative anaerobic rods suggest bacteroides
+  premises:
+    - [gram_stain, is, gram-negative]
+    - [morphology, is, rod]
+    - [aerobicity, is, anaerobic]
+  conclusion: [identity, bacteroides]
+  cf: 0.6
+
+- name: R5
+  text: In a compromised host, gram-negative aerobic rods are more likely pseudomonas
+  premises:
+    - [gram_stain, is, gram-negative]
+    - [morphology, is, rod]
+    - [aerobicity, is, aerobic]
+    - [host_compromised, is, "yes"]
+  conclusion: [identity, pseudomonas]
+  cf: 0.8
+
+- name: R6
+  text: Gram-negative facultative rods suggest E. coli
+  premises:
+    - [gram_stain, is, gram-negative]
+    - [morphology, is, rod]
+    - [aerobicity, is, facultative]
+  conclusion: [identity, e_coli]
+  cf: 0.8
+
+- name: R7
+  text: Gram-positive anaerobic rods suggest clostridium
+  premises:
+    - [gram_stain, is, gram-positive]
+    - [morphology, is, rod]
+    - [aerobicity, is, anaerobic]
+  conclusion: [identity, clostridium]
+  cf: 0.7
+
+- name: R8
+  text: Coagulase-positive staph in clumps is likely S. aureus
+  premises:
+    - [gram_stain, is, gram-positive]
+    - [morphology, is, coccus]
+    - [growth_pattern, is, clumps]
+    - [coagulase_test, is, positive]
+  conclusion: [identity, staph_aureus]
+  cf: 0.9
+
+# ── Layer 2: Therapy Recommendations ──
+
+- name: R9
+  text: Pseudomonas should be treated with gentamicin
+  premises:
+    - [identity, is, pseudomonas]
+  conclusion: [therapy, gentamicin]
+  cf: 0.9
+
+- name: R10
+  text: Streptococcus should be treated with penicillin
+  premises:
+    - [identity, is, streptococcus]
+  conclusion: [therapy, penicillin]
+  cf: 0.8
+
+- name: R11
+  text: Staphylococcus should be treated with cloxacillin
+  premises:
+    - [identity, is, staphylococcus]
+  conclusion: [therapy, cloxacillin]
+  cf: 0.75
+
+- name: R12
+  text: E. coli should be treated with ampicillin
+  premises:
+    - [identity, is, e_coli]
+  conclusion: [therapy, ampicillin]
+  cf: 0.85

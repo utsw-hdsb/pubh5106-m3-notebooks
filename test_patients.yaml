@@ -1,0 +1,58 @@
+# Test Patients for Statin Guideline
+# ===================================
+# Each patient has a name, description, and a set of clinical facts.
+# CFs use the 0-10 scale (clinician-reported certainty).
+# The inference engine classifies each patient and recommends therapy.
+
+- name: "Mr. Johnson"
+  description: "62-year-old man with prior MI (stent placed 2019), LDL 95 mg/dL, on moderate-intensity statin"
+  facts:
+    has_ascvd: ["yes", 10]
+    age_group: ["40-75", 10]
+    ldl_ge_70: ["yes", 10]
+    ldl_ge_190: ["no", 10]
+    has_diabetes: ["no", 10]
+    has_risk_enhancers: ["yes", 10]
+
+- name: "Ms. Garcia"
+  description: "52-year-old woman with type 2 diabetes, LDL 118 mg/dL, family history of premature ASCVD, metabolic syndrome"
+  facts:
+    has_ascvd: ["no", 10]
+    age_group: ["40-75", 10]
+    ldl_ge_70: ["yes", 10]
+    ldl_ge_190: ["no", 10]
+    has_diabetes: ["yes", 10]
+    has_risk_enhancers: ["yes", 9]
+    ten_year_risk: ["intermediate", 8]
+
+- name: "Mr. Patel"
+  description: "45-year-old man with familial hypercholesterolemia, LDL 245 mg/dL, no ASCVD yet"
+  facts:
+    has_ascvd: ["no", 10]
+    age_group: ["40-75", 10]
+    ldl_ge_70: ["yes", 10]
+    ldl_ge_190: ["yes", 10]
+    has_diabetes: ["no", 10]
+    has_risk_enhancers: ["yes", 10]
+
+- name: "Ms. Chen"
+  description: "55-year-old woman, no diabetes, no ASCVD, LDL 142 mg/dL, 10-year ASCVD risk 8.2%, hsCRP elevated"
+  facts:
+    has_ascvd: ["no", 10]
+    age_group: ["40-75", 10]
+    ldl_ge_70: ["yes", 10]
+    ldl_ge_190: ["no", 10]
+    has_diabetes: ["no", 10]
+    ten_year_risk: ["intermediate", 9]
+    has_risk_enhancers: ["yes", 8]
+
+- name: "Mr. Williams"
+  description: "48-year-old man, no diabetes, no ASCVD, LDL 128 mg/dL, 10-year ASCVD risk 6.1%, no risk enhancers"
+  facts:
+    has_ascvd: ["no", 10]
+    age_group: ["40-75", 10]
+    ldl_ge_70: ["yes", 10]
+    ldl_ge_190: ["no", 10]
+    has_diabetes: ["no", 10]
+    ten_year_risk: ["borderline", 10]
+    has_risk_enhancers: ["no", 10]

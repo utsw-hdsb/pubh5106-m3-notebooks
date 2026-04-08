@@ -1,0 +1,24 @@
+# Student-Added Triples
+# =====================
+# Add your own knowledge to the lipid management graph.
+# The engine loads BOTH lipid_kg.yaml and this file.
+#
+# Try adding:
+#   - A new drug (e.g., bempedoic acid inhibits ACL/ATP citrate lyase)
+#   - A new risk factor (e.g., chronic kidney disease increases risk of atherosclerosis)
+#   - A new biomarker (e.g., Lp(a) is associated with atherosclerosis)
+
+- subject: bempedoic acid
+  predicate: inhibits
+  object: ATP citrate lyase
+  source: "CLEAR Outcomes trial 2023"
+
+- subject: ATP citrate lyase
+  predicate: catalyzes
+  object: cholesterol biosynthesis
+  source: "biochemistry"
+
+- subject: bempedoic acid
+  predicate: is a
+  object: ACL inhibitor
+  source: "pharmacology"

@@ -1,0 +1,22 @@
+# Student-Added Rules
+# ===================
+# This file extends the knowledge base with rules you write yourself.
+# The engine loads BOTH mycin_rules.yaml and this file.
+#
+# Your task: An infectious disease specialist wants the system to
+# handle Neisseria infections. Fill in the two rules below.
+
+- name: R13
+  text: Gram-negative cocci suggest Neisseria
+  premises:
+    - [gram_stain, is, gram-negative]
+    - [morphology, is, coccus]
+  conclusion: [identity, neisseria]
+  cf: 0.6
+
+- name: R14
+  text: Neisseria should be treated with ceftriaxone
+  premises:
+    - [identity, is, neisseria]
+  conclusion: [therapy, ceftriaxone]
+  cf: 0.85

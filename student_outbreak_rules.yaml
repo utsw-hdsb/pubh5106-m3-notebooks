@@ -1,0 +1,30 @@
+# Student-Added Outbreak Investigation Rules
+# ===========================================
+# This file extends the outbreak knowledge base with rules you write.
+# The engine loads BOTH outbreak_rules.yaml and this file.
+#
+# Your task: A state epidemiologist wants the system to handle
+# Listeria outbreaks. Fill in the rules below.
+#
+# Hint: Listeria is associated with:
+#   - Deli meats, soft cheeses, unpasteurized dairy
+#   - Long incubation (1-4 weeks)
+#   - Fever and muscle aches (not primarily diarrhea)
+#   - Especially dangerous for pregnant women and elderly
+#   - Response: immediate product recall + consumer advisory
+
+- name: R18
+  text: Fever and muscle aches after deli meat with long incubation suggests Listeria
+  premises:
+    - [primary_symptom, is, fever_and_myalgia]
+    - [incubation_hours, is, "168-672"]
+    - [food_exposure, is, deli_meat]
+  conclusion: [pathogen, listeria]
+  cf: 0.7
+
+- name: R19
+  text: Listeria requires immediate recall and consumer advisory
+  premises:
+    - [pathogen, is, listeria]
+  conclusion: [response, recall_and_consumer_advisory]
+  cf: 0.9

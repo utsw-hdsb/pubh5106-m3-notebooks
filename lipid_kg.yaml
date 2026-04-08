@@ -1,0 +1,236 @@
+# Lipid Management Knowledge Graph
+# =================================
+# Subject-Predicate-Object triples encoding the biomedical
+# relationships underlying lipid management therapy.
+#
+# Entity types:
+#   drug, target, receptor, biomarker, disease, gene, pathway, process
+#
+# To add knowledge, add triples here — do not modify the engine code.
+
+# ── The Cholesterol Biosynthesis Pathway ──
+
+- subject: HMG-CoA reductase
+  predicate: catalyzes
+  object: cholesterol biosynthesis
+  source: "biochemistry textbook"
+
+- subject: cholesterol biosynthesis
+  predicate: produces
+  object: intracellular cholesterol
+  source: "biochemistry textbook"
+
+# ── LDL Receptor Pathway (Brown & Goldstein, Nobel 1985) ──
+
+- subject: LDL receptor
+  predicate: clears
+  object: LDL-C from blood
+  source: "Brown & Goldstein 1985"
+
+- subject: intracellular cholesterol
+  predicate: downregulates
+  object: LDL receptor
+  source: "Brown & Goldstein 1985"
+
+- subject: reduced intracellular cholesterol
+  predicate: upregulates
+  object: LDL receptor
+  source: "Brown & Goldstein 1985"
+
+# ── PCSK9 Pathway (Hobbs & Cohen, UTSW) ──
+
+- subject: PCSK9
+  predicate: degrades
+  object: LDL receptor
+  source: "Hobbs & Cohen, Dallas Heart Study"
+
+- subject: PCSK9
+  predicate: encoded by
+  object: PCSK9 gene
+  source: "Abifadel et al. 2003"
+
+- subject: PCSK9 loss-of-function mutation
+  predicate: reduces
+  object: PCSK9
+  source: "Hobbs & Cohen, Dallas Heart Study"
+
+- subject: PCSK9 loss-of-function mutation
+  predicate: lowers
+  object: LDL-C from blood
+  source: "Hobbs & Cohen, Dallas Heart Study"
+
+# ── Statin Mechanism ──
+
+- subject: atorvastatin
+  predicate: inhibits
+  object: HMG-CoA reductase
+  source: "pharmacology"
+
+- subject: rosuvastatin
+  predicate: inhibits
+  object: HMG-CoA reductase
+  source: "pharmacology"
+
+- subject: HMG-CoA reductase inhibition
+  predicate: reduces
+  object: intracellular cholesterol
+  source: "Brown & Goldstein 1985"
+
+- subject: HMG-CoA reductase inhibition
+  predicate: leads to
+  object: reduced intracellular cholesterol
+  source: "Brown & Goldstein 1985"
+
+# ── PCSK9 Inhibitor Mechanism ──
+
+- subject: evolocumab
+  predicate: inhibits
+  object: PCSK9
+  source: "FOURIER trial 2017"
+
+- subject: alirocumab
+  predicate: inhibits
+  object: PCSK9
+  source: "ODYSSEY trial 2018"
+
+# ── Ezetimibe Mechanism ──
+
+- subject: ezetimibe
+  predicate: inhibits
+  object: NPC1L1
+  source: "pharmacology"
+
+- subject: NPC1L1
+  predicate: mediates
+  object: intestinal cholesterol absorption
+  source: "pharmacology"
+
+- subject: NPC1L1 inhibition
+  predicate: reduces
+  object: intestinal cholesterol absorption
+  source: "pharmacology"
+
+- subject: ezetimibe
+  predicate: lowers
+  object: LDL-C from blood
+  source: "IMPROVE-IT trial 2015"
+
+# ── Causal Chain: LDL to Disease ──
+
+- subject: elevated LDL-C
+  predicate: causes
+  object: atherosclerosis
+  source: "Ference et al. 2017, Lancet"
+
+- subject: atherosclerosis
+  predicate: increases risk of
+  object: myocardial infarction
+  source: "epidemiology"
+
+- subject: atherosclerosis
+  predicate: increases risk of
+  object: stroke
+  source: "epidemiology"
+
+- subject: atherosclerosis
+  predicate: increases risk of
+  object: peripheral artery disease
+  source: "epidemiology"
+
+# ── LDL-C as Central Biomarker ──
+
+- subject: LDL-C from blood
+  predicate: measured as
+  object: LDL-C level
+  source: "clinical laboratory"
+
+- subject: LDL-C from blood
+  predicate: when elevated causes
+  object: atherosclerosis
+  source: "Ference et al. 2017, Lancet"
+
+- subject: elevated LDL-C
+  predicate: defined as
+  object: LDL-C level >= 190 mg/dL (severe)
+  source: "ACC/AHA 2018"
+
+- subject: elevated LDL-C
+  predicate: defined as
+  object: LDL-C level >= 70 mg/dL (threshold for therapy)
+  source: "ACC/AHA 2018"
+
+# ── Genetic Causes ──
+
+- subject: LDLR gene mutation
+  predicate: causes
+  object: familial hypercholesterolemia
+  source: "Brown & Goldstein 1985"
+
+- subject: APOB gene mutation
+  predicate: causes
+  object: familial hypercholesterolemia
+  source: "genetics"
+
+- subject: PCSK9 gain-of-function mutation
+  predicate: causes
+  object: familial hypercholesterolemia
+  source: "Abifadel et al. 2003"
+
+- subject: familial hypercholesterolemia
+  predicate: causes
+  object: elevated LDL-C
+  source: "Brown & Goldstein 1985"
+
+# ── Risk Factors ──
+
+- subject: diabetes mellitus
+  predicate: increases risk of
+  object: atherosclerosis
+  source: "epidemiology"
+
+- subject: hypertension
+  predicate: increases risk of
+  object: atherosclerosis
+  source: "epidemiology"
+
+- subject: smoking
+  predicate: increases risk of
+  object: atherosclerosis
+  source: "epidemiology"
+
+- subject: elevated hsCRP
+  predicate: indicates
+  object: vascular inflammation
+  source: "Ridker et al."
+
+- subject: vascular inflammation
+  predicate: accelerates
+  object: atherosclerosis
+  source: "CANTOS trial 2017"
+
+# ── Drug Classes ──
+
+- subject: atorvastatin
+  predicate: is a
+  object: statin
+  source: "pharmacology"
+
+- subject: rosuvastatin
+  predicate: is a
+  object: statin
+  source: "pharmacology"
+
+- subject: evolocumab
+  predicate: is a
+  object: PCSK9 inhibitor
+  source: "pharmacology"
+
+- subject: alirocumab
+  predicate: is a
+  object: PCSK9 inhibitor
+  source: "pharmacology"
+
+- subject: ezetimibe
+  predicate: is a
+  object: cholesterol absorption inhibitor
+  source: "pharmacology"

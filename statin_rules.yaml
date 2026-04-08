@@ -1,0 +1,188 @@
+# 2018 ACC/AHA Cholesterol Guideline — Statin Recommendations
+# ============================================================
+# Source: Grundy et al. 2018, Circulation 139(25):e1082-e1143
+#
+# This knowledge base encodes the guideline's statin therapy
+# recommendations as production rules with two layers:
+#
+#   Layer 1: Patient classification (propositional logic)
+#     Premises about age, LDL, ASCVD history, diabetes, risk score,
+#     and risk enhancers → conclusion about risk group
+#
+#   Layer 2: Therapy recommendation (deontic logic)
+#     Risk group → statin recommendation with ACC/AHA Class of
+#     Recommendation (COR) mapped to deontic strength:
+#       Class I    = "is recommended"  → obligation  (CF 0.95)
+#       Class IIa  = "is reasonable"   → strong should (CF 0.80)
+#       Class IIb  = "may be considered" → permission (CF 0.60)
+#
+# ── Layer 1: Patient Classification ──
+
+# --- Secondary prevention (clinical ASCVD) ---
+
+- name: C1
+  text: "Clinical ASCVD in patient age 40-75 → very high risk group"
+  premises:
+    - [has_ascvd, is, "yes"]
+    - [age_group, is, "40-75"]
+  conclusion: [risk_group, ascvd_secondary]
+  cf: 1.0
+
+- name: C2
+  text: "Clinical ASCVD in patient age >75 → elderly ASCVD group"
+  premises:
+    - [has_ascvd, is, "yes"]
+    - [age_group, is, "over_75"]
+  conclusion: [risk_group, ascvd_elderly]
+  cf: 1.0
+
+# --- Severe hypercholesterolemia ---
+
+- name: C3
+  text: "LDL-C >= 190 mg/dL → severe hypercholesterolemia (no risk calc needed)"
+  premises:
+    - [ldl_ge_190, is, "yes"]
+  conclusion: [risk_group, severe_hypercholesterolemia]
+  cf: 1.0
+
+# --- Diabetes ---
+
+- name: C4
+  text: "Diabetes, age 40-75, LDL >= 70 → diabetes statin group"
+  premises:
+    - [has_diabetes, is, "yes"]
+    - [age_group, is, "40-75"]
+    - [ldl_ge_70, is, "yes"]
+  conclusion: [risk_group, diabetes_primary]
+  cf: 1.0
+
+- name: C5
+  text: "Diabetes with multiple risk factors → high-risk diabetes"
+  premises:
+    - [has_diabetes, is, "yes"]
+    - [age_group, is, "40-75"]
+    - [ldl_ge_70, is, "yes"]
+    - [has_risk_enhancers, is, "yes"]
+  conclusion: [risk_group, diabetes_high_risk]
+  cf: 0.9
+
+# --- Primary prevention (no ASCVD, no diabetes) ---
+
+- name: C6
+  text: "Age 40-75, LDL >= 70, 10-yr risk >= 20% → high primary prevention risk"
+  premises:
+    - [age_group, is, "40-75"]
+    - [ldl_ge_70, is, "yes"]
+    - [ten_year_risk, is, "high"]
+  conclusion: [risk_group, primary_high]
+  cf: 1.0
+
+- name: C7
+  text: "Age 40-75, LDL >= 70, 10-yr risk 7.5-19.9% → intermediate risk"
+  premises:
+    - [age_group, is, "40-75"]
+    - [ldl_ge_70, is, "yes"]
+    - [ten_year_risk, is, "intermediate"]
+  conclusion: [risk_group, primary_intermediate]
+  cf: 1.0
+
+- name: C8
+  text: "Age 40-75, LDL >= 70, intermediate risk + enhancers → elevated intermediate risk"
+  premises:
+    - [age_group, is, "40-75"]
+    - [ldl_ge_70, is, "yes"]
+    - [ten_year_risk, is, "intermediate"]
+    - [has_risk_enhancers, is, "yes"]
+  conclusion: [risk_group_enhanced, primary_intermediate_enhanced]
+  cf: 0.9
+
+- name: C9
+  text: "Age 40-75, LDL >= 70, 10-yr risk 5-7.4% → borderline risk"
+  premises:
+    - [age_group, is, "40-75"]
+    - [ldl_ge_70, is, "yes"]
+    - [ten_year_risk, is, "borderline"]
+  conclusion: [risk_group, primary_borderline]
+  cf: 1.0
+
+- name: C10
+  text: "Age 40-75, LDL >= 70, borderline risk + enhancers → moderate-consideration group"
+  premises:
+    - [age_group, is, "40-75"]
+    - [ldl_ge_70, is, "yes"]
+    - [ten_year_risk, is, "borderline"]
+    - [has_risk_enhancers, is, "yes"]
+  conclusion: [risk_group_enhanced, borderline_enhanced]
+  cf: 0.8
+
+# ── Layer 2: Statin Therapy Recommendations ──
+# COR mapped to CF: Class I = 0.95, Class IIa = 0.80, Class IIb = 0.60
+
+# --- Class I: "Is recommended" (obligation) ---
+
+- name: T1
+  text: "ASCVD secondary prevention: high-intensity statin is recommended (Class I)"
+  premises:
+    - [risk_group, is, ascvd_secondary]
+  conclusion: [statin_recommendation, high_intensity]
+  cf: 0.95
+
+- name: T2
+  text: "Severe hypercholesterolemia: high-intensity statin is recommended (Class I)"
+  premises:
+    - [risk_group, is, severe_hypercholesterolemia]
+  conclusion: [statin_recommendation, high_intensity]
+  cf: 0.95
+
+- name: T3
+  text: "Diabetes primary prevention: moderate-intensity statin is recommended (Class I)"
+  premises:
+    - [risk_group, is, diabetes_primary]
+  conclusion: [statin_recommendation, moderate_intensity]
+  cf: 0.95
+
+- name: T4
+  text: "High primary prevention risk (>=20%): moderate-to-high statin is recommended (Class I)"
+  premises:
+    - [risk_group, is, primary_high]
+  conclusion: [statin_recommendation, moderate_to_high_intensity]
+  cf: 0.95
+
+# --- Class IIa: "Is reasonable" (strong should) ---
+
+- name: T5
+  text: "High-risk diabetes: high-intensity statin is reasonable (Class IIa)"
+  premises:
+    - [risk_group, is, diabetes_high_risk]
+  conclusion: [statin_recommendation, high_intensity]
+  cf: 0.80
+
+- name: T6
+  text: "ASCVD age >75: moderate or high statin is reasonable (Class IIa)"
+  premises:
+    - [risk_group, is, ascvd_elderly]
+  conclusion: [statin_recommendation, moderate_or_high_intensity]
+  cf: 0.80
+
+- name: T7
+  text: "Intermediate risk + enhancers: moderate statin is reasonable (Class IIa)"
+  premises:
+    - [risk_group_enhanced, is, primary_intermediate_enhanced]
+  conclusion: [statin_recommendation, moderate_intensity]
+  cf: 0.80
+
+# --- Class IIb: "May be considered" (permission) ---
+
+- name: T8
+  text: "Intermediate risk (no enhancers): moderate statin may be considered (Class IIb)"
+  premises:
+    - [risk_group, is, primary_intermediate]
+  conclusion: [statin_recommendation, moderate_intensity]
+  cf: 0.60
+
+- name: T9
+  text: "Borderline risk + enhancers: moderate statin may be considered (Class IIb)"
+  premises:
+    - [risk_group_enhanced, is, borderline_enhanced]
+  conclusion: [statin_recommendation, moderate_intensity]
+  cf: 0.60

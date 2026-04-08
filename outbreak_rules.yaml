@@ -1,0 +1,148 @@
+# Foodborne Outbreak Investigation Knowledge Base
+# ================================================
+# Rules for identifying likely pathogens and recommending public health
+# responses based on symptom patterns, incubation periods, and food
+# exposures. Inspired by CDC foodborne outbreak investigation guidelines.
+#
+# Layer 1: Symptom pattern + exposure → likely pathogen
+# Layer 2: Pathogen → public health response
+
+# ── Layer 1: Pathogen Identification ──
+
+- name: R1
+  text: Watery diarrhea with short incubation after poultry suggests Salmonella
+  premises:
+    - [primary_symptom, is, watery_diarrhea]
+    - [incubation_hours, is, "12-72"]
+    - [food_exposure, is, poultry]
+  conclusion: [pathogen, salmonella]
+  cf: 0.7
+
+- name: R2
+  text: Bloody diarrhea with short incubation after ground beef suggests E. coli O157
+  premises:
+    - [primary_symptom, is, bloody_diarrhea]
+    - [incubation_hours, is, "24-72"]
+    - [food_exposure, is, ground_beef]
+  conclusion: [pathogen, ecoli_o157]
+  cf: 0.8
+
+- name: R3
+  text: Vomiting with very short incubation after prepared foods suggests Staph aureus toxin
+  premises:
+    - [primary_symptom, is, vomiting]
+    - [incubation_hours, is, "1-6"]
+    - [food_exposure, is, prepared_food]
+  conclusion: [pathogen, staph_toxin]
+  cf: 0.75
+
+- name: R4
+  text: Watery diarrhea after raw shellfish suggests Norovirus
+  premises:
+    - [primary_symptom, is, watery_diarrhea]
+    - [food_exposure, is, raw_shellfish]
+  conclusion: [pathogen, norovirus]
+  cf: 0.6
+
+- name: R5
+  text: Watery diarrhea with person-to-person spread suggests Norovirus
+  premises:
+    - [primary_symptom, is, watery_diarrhea]
+    - [person_to_person, is, "yes"]
+  conclusion: [pathogen, norovirus]
+  cf: 0.8
+
+- name: R6
+  text: Fever with diarrhea after eggs suggests Salmonella
+  premises:
+    - [fever_present, is, "yes"]
+    - [primary_symptom, is, watery_diarrhea]
+    - [food_exposure, is, eggs]
+  conclusion: [pathogen, salmonella]
+  cf: 0.7
+
+- name: R7
+  text: Watery diarrhea after leafy greens with short incubation suggests E. coli O157
+  premises:
+    - [primary_symptom, is, watery_diarrhea]
+    - [incubation_hours, is, "24-72"]
+    - [food_exposure, is, leafy_greens]
+  conclusion: [pathogen, ecoli_o157]
+  cf: 0.5
+
+- name: R8
+  text: Neurological symptoms after canned or fermented food suggests botulism
+  premises:
+    - [primary_symptom, is, neurological]
+    - [food_exposure, is, canned_food]
+  conclusion: [pathogen, botulism]
+  cf: 0.85
+
+- name: R9
+  text: Diarrhea in a daycare or nursing home setting suggests Norovirus
+  premises:
+    - [primary_symptom, is, watery_diarrhea]
+    - [setting, is, institutional]
+  conclusion: [pathogen, norovirus]
+  cf: 0.6
+
+- name: R10
+  text: Fever with bloody diarrhea after poultry suggests Campylobacter
+  premises:
+    - [fever_present, is, "yes"]
+    - [primary_symptom, is, bloody_diarrhea]
+    - [food_exposure, is, poultry]
+  conclusion: [pathogen, campylobacter]
+  cf: 0.7
+
+# ── Layer 2: Public Health Response ──
+
+- name: R11
+  text: Salmonella requires source traceback and facility inspection
+  premises:
+    - [pathogen, is, salmonella]
+  conclusion: [response, traceback_and_inspection]
+  cf: 0.9
+
+- name: R12
+  text: E. coli O157 requires immediate product recall and HUS surveillance
+  premises:
+    - [pathogen, is, ecoli_o157]
+  conclusion: [response, recall_and_hus_surveillance]
+  cf: 0.95
+
+- name: R13
+  text: Norovirus requires environmental decontamination and exclusion of ill workers
+  premises:
+    - [pathogen, is, norovirus]
+  conclusion: [response, decontamination_and_exclusion]
+  cf: 0.85
+
+- name: R14
+  text: Staph toxin requires food handler investigation and facility inspection
+  premises:
+    - [pathogen, is, staph_toxin]
+  conclusion: [response, handler_investigation]
+  cf: 0.85
+
+- name: R15
+  text: Botulism requires emergency antitoxin notification and immediate product seizure
+  premises:
+    - [pathogen, is, botulism]
+  conclusion: [response, emergency_antitoxin_and_seizure]
+  cf: 0.95
+
+- name: R16
+  text: Multiple cases linked to one establishment warrants facility closure
+  premises:
+    - [case_count, is, multiple]
+    - [single_source, is, "yes"]
+  conclusion: [response, facility_closure]
+  cf: 0.7
+
+- name: R17
+  text: Campylobacter requires poultry source investigation
+  premises:
+    - [pathogen, is, campylobacter]
+  conclusion: [response, poultry_source_investigation]
+  cf: 0.85

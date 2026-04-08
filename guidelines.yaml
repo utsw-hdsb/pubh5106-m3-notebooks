@@ -1,0 +1,55 @@
+# Clinical Guidelines Knowledge Base
+# ===================================
+# Each guideline has:
+#   - id: short identifier
+#   - text: the original English guideline sentence
+#   - term: the deontic word used (must, should, may, must_not)
+#   - type: obligation, permission, or prohibition
+#   - atoms: propositional atoms involved
+#   - formula: how to build the deontic formula
+#     - op: box (obligation), diamond (permission), box_not (prohibition)
+#     - conditional: optional — if present, the formula is "if condition then op(consequent)"
+#
+# The inference engine loads this file and constructs formal logic
+# from it. To add guidelines, edit this file — do not modify the code.
+
+- id: G1
+  text: "Informed consent must be obtained before any procedure"
+  term: must
+  type: obligation
+  formula:
+    op: box
+    atom: consent
+
+- id: G2
+  text: "Patients with bacteremia should receive blood cultures before initiating antibiotics"
+  term: should
+  type: obligation
+  formula:
+    op: box
+    atom: blood_cultures
+
+- id: G3
+  text: "Clinicians may use clinical judgment to adjust antibiotic duration"
+  term: may
+  type: permission
+  formula:
+    op: diamond
+    atom: adjust_duration
+
+- id: G4
+  text: "Thrombolytics must not be administered if the patient has active bleeding"
+  term: must_not
+  type: prohibition
+  formula:
+    op: box_not
+    atom: thrombolytic
+    conditional: active_bleeding
+
+- id: G5
+  text: "Discharge planning should begin within 24 hours of admission"
+  term: should
+  type: obligation
+  formula:
+    op: box
+    atom: discharge_plan
