@@ -1,4 +1,5 @@
 # M3 Pre-Class Explorations: The Role of Logic in AI for Health
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/utsw-hdsb/pubh5106-m3-notebooks/HEAD?urlpath=%2Fdoc%2Ftree%2FM3_explore_mycin.ipynb)
 
 **PUBH 5106 — AI in Health Applications | Module 3**
 
