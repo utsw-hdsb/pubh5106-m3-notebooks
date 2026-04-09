@@ -1,0 +1,3 @@
+#!/bin/bash
+# Ensure IJulia kernel is registered
+julia -e 'using IJulia; IJulia.installkernel("Julia")'
