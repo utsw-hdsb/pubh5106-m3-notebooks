@@ -42,7 +42,7 @@ uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
 version = "1.11.0"
 
 [[deps.Gamen]]
-git-tree-sha1 = "0fc68b49aba3c3073a6d7dc880e7900c02e7640c"
+git-tree-sha1 = "5cdfb73f956f2062468b270e08aee275884f4ca8"
 repo-rev = "main"
 repo-url = "https://github.com/chapmanbe/Gamen.jl"
 uuid = "d58aead4-12fe-4bc4-9bd9-a7dede724567"
